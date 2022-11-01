@@ -1,0 +1,42 @@
+﻿@page
+@model CourseManagementApp.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2 class="text-center pt-4 pb-2">List of Courses</h2>
+<div class="row justify-content-center">
+    <table id="sortMe" class="table table-striped table-hover w-auto">
+        <thead>
+            <tr>
+                <th id="cursor" data-type="number"><i class="fa-solid fa-sort"></i>  ID</th>
+                <th id="cursor" data-type="text"><i class="fa-solid fa-sort"></i>  Description</th>
+                <th id="cursor" data-type="text"><i class="fa-solid fa-sort"></i>  Teacher</th>
+                <th data-type="nosort">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.courses is not null)
+            {
+                @foreach (var course in Model.courses)
+                {
+                    @foreach (var teacher in Model.teachers)
+                    {
+                        if (@teacher.Id == @course.TeacherId)
+                        {
+                            <tr>
+                                <td>@course.Id</td>
+                                <td>@course.Description</td>
+                                <td>@teacher.Lastname @teacher.Firstname</td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm" href="/Courses/Update?id=@course.Id">Edit/Info</a>
+                                    <a class="btn btn-danger btn-sm" href="/Courses/Delete?id=@course.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>

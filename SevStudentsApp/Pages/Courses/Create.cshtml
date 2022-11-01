@@ -1,0 +1,40 @@
+﻿@page
+@model CourseManagementApp.Pages.Courses.CreateModel
+@{
+    ViewData["Title"] = "Create Course";
+}
+<div class="container border rounded shadow bg-light my-3 py-3">
+
+    <h2 class="text-center">New Course</h2>
+    @if (!Model.errormessage.Equals(""))
+    {
+        <h5><strong>@Model.errormessage</strong></h5>
+    }
+
+    <form method="post">
+        <div class="row mb-3">
+            <label for="description" class="col-md-1 col-form-label">Description</label>
+            <div>
+                <input type="text" class="form-control" name="description" id="description" 
+                placeholder="Enter course description" value="@Model.courseDTO.Description" />
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="teacherId" class="col-md-1 col-form-label">Teacher Id</label>
+            <select class="form-select" name="teacherId" id="teacherId">
+                <option value="0" selected>Choose a Teacher</option>
+                @if (Model.teachers is not null)
+                {
+                    @foreach (var teacher in Model.teachers)
+                    {
+                        <option value="@teacher.Id">@teacher.Id - @teacher.Lastname @teacher.Firstname</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class=" col-sm-12 text-center">
+            <button type="submit" class="btn col-md-2 btn-danger">Submit</button>
+            <a href="/Courses/Index" role="button" class="btn offset-md-7 col-md-2 btn-danger">Cancel</a>
+        </div>
+    </form>
+</div>

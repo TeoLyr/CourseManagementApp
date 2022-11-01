@@ -1,0 +1,10 @@
+﻿@page
+@model CourseManagementApp.Pages.Courses.DeleteModel
+@{
+    ViewData["Title"] = "Delete Course";
+}
+
+@if (!Model.errormessage.Equals(""))
+{
+    <h5><strong>@Model.errormessage</strong></h5>
+}

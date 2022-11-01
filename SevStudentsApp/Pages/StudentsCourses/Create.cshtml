@@ -1,0 +1,50 @@
+﻿@page
+@model CourseManagementApp.Pages.StudentsCourses.CreateModel
+@{
+    ViewData["Title"] = "Create StudentCourse";
+}
+<div class="container border rounded shadow bg-light my-3 py-3">
+
+    <h2 class="text-center">New Student Assignment</h2>
+    @if (!Model.errormessage.Equals(""))
+    {
+        <h5><strong>@Model.errormessage</strong></h5>
+    }
+
+    <form method="post">
+        <div class="row mb-3">
+            <div class="mb-3">
+                <label for="studentId" class="col-md-1 col-form-label">Student ID</label>
+                <select class="form-select" name="studentId" id="studentId">
+                    <option value="0" selected>Choose a Student</option>
+                    @if (Model.students is not null)
+                    {
+                        @foreach (var student in Model.students)
+                        {
+                            <option value="@student.Id">@student.Id - @student.Lastname @student.Firstname</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="mb-3">
+                <label for="courseId" class="col-md-1 col-form-label">Course ID</label>
+                <select class="form-select" name="courseId" id="courseId">
+                    <option value="0" selected>Choose a Course</option>
+                    @if (Model.courses is not null)
+                    {
+                        @foreach (var course in Model.courses)
+                        {
+                            <option value="@course.Id">@course.Id - @course.Description</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class=" col-sm-12 text-center">
+            <button type="submit" class="btn col-md-2 btn-danger">Submit</button>
+            <a href="/StudentsCourses/Index" role="button" class="btn offset-md-7 col-md-2 btn-danger">Cancel</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,60 @@
+﻿@page
+@model CourseManagementApp.Pages.Teachers.UpdateModel
+@{
+    ViewData["Title"] = "Teacher Info / Edit";
+}
+
+<div class="row justify-content-center container-fluid border rounded shadow bg-light my-3 py-3">
+
+    <h2 class="text-center">Teacher: @Model.teacherDTO.Lastname @Model.teacherDTO.Firstname</h2>
+    @if (!Model.errormessage.Equals(""))
+    {
+        <h5><strong>@Model.errormessage</strong></h5>
+    }
+
+    <div class="col-sm-5">
+        <form method="post">
+            <div class="row mb-3">
+                    <input type="hidden" class="form-control" name="id" id="firstname" value="@Model.teacherDTO.Id" />
+            </div>
+            <div class="row mb-3">
+                <label for="firstname" class="col-md-1 col-form-label">Firstname</label>
+                <div>
+                        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter firstname" value="@Model.teacherDTO.Firstname!.Trim()" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="lastname" class="col-md-1 col-form-label">Lastname</label>
+                <div>
+                        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter lastname" value="@Model.teacherDTO.Lastname!.Trim()" />
+                </div>
+            </div>
+            <div class=" col-sm-12 text-center">
+                <button type="submit" class="btn col-md-3 btn-danger">Submit</button>
+                <a href="/Teachers/Index" role="button" class="btn offset-md-2 col-md-3 btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <div class="offset-md-3 col-auto">
+        <table id="sortMe" class="table table-striped table-hover w-auto">
+            <thead>
+                <tr>
+                    <th id="cursor" data-type="number"><i class="fa-solid fa-sort"></i>  ID</th>
+                    <th id="cursor" data-type="text"><i class="fa-solid fa-sort"></i>  Courses Teaching:</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.courses is not null)
+                {
+                    @foreach (var course in Model.courses)
+                    {
+                        @if (@Model.teacherDTO.Id == @course.TeacherId)
+                        {
+                            <tr><td>@course.Id</td><td>@course.Description</td></tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

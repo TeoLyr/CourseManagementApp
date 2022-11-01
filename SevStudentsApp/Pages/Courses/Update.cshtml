@@ -1,0 +1,89 @@
+﻿@page
+@model CourseManagementApp.Pages.Courses.UpdateModel
+@{
+    ViewData["Title"] = "Course Info / Edit";
+    bool isChecked = false;
+}
+<div class="row justify-content-center container-fluid border rounded shadow bg-light my-3 py-3">
+
+    <h2 class="text-center">Course: @Model.courseDTO.Description</h2>
+    @if (!Model.errormessage.Equals(""))
+    {
+        <h5><strong>@Model.errormessage</strong></h5>
+    }
+
+    <div class="col-sm-5">
+        <form method="post">
+            <div class="row mb-3">
+                <input type="hidden" class="form-control" name="id" id="id" value="@Model.courseDTO.Id" />
+            </div>
+            <div class="row mb-3">
+                <label for="description" class="col-md-1 col-form-label">Description</label>
+                <div>
+                    <input type="text" class="form-control" name="description" id="description" 
+                    placeholder="Enter course description" value="@Model.courseDTO.Description!.Trim()" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="teacherId" class="col-md-1 col-form-label">Teacher</label>
+                <select class="form-select" name="teacherId" id="teacherId">
+                    <option value="@Model.courseDTO.TeacherId" selected>
+                        @Model.courseDTO.TeacherId - @Model.teacherDTO.Lastname @Model.teacherDTO.Firstname
+                    </option>
+                    @if (Model.teachers is not null)
+                    {
+                        @foreach (var teacher in Model.teachers)
+                        {
+                            @if (@teacher.Id == @Model.courseDTO.TeacherId)
+                            { 
+                                continue; 
+                            }
+                            <option value="@teacher.Id">@teacher.Id - @teacher.Lastname @teacher.Firstname</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="row mb-3">
+                <div class=" col-sm-12 text-center">
+                    <button type="submit" class="btn col-md-3 btn-danger">Submit</button>
+                        <a href="/Courses/Index" role="button" class="btn offset-2 col-md-3 btn-danger">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="offset-md-3 col-auto">
+       <table id="sortMe" class="table table-striped table-hover w-auto">
+           <thead>
+               <tr>
+                    <th id="cursor" data-type="number"><i class="fa-solid fa-sort"></i>  ID</th>
+                    <th id="cursor" data-type="text"><i class="fa-solid fa-sort"></i>  Students in this Course</th>
+               </tr>
+           </thead>
+           <tbody>
+               @if (Model.students is not null)
+               {
+                   @foreach (var student in Model.students)
+                   {
+                       @foreach (var studentCourse in Model.studentsCourses)
+                       {
+                           isChecked = false;
+                           @if (@student.Id == studentCourse.StudentId && @Model.courseDTO.Id == @studentCourse.CourseId)
+                           {
+                               isChecked = true;
+                               break;
+                           }
+                       }
+                       @if (isChecked)
+                        {
+                            <tr>
+                                <td>@student.Id</td>
+                                <td>@student.Lastname @student.Firstname</td>
+                            </tr>
+                       }
+                   }
+               }
+           </tbody>
+        </table>
+        <a href="/StudentsCourses/Create" role="button" class="btn mt-3 offset-md-2 col-md-9 btn-danger">Add Student</a>
+    </div>
+</div>
